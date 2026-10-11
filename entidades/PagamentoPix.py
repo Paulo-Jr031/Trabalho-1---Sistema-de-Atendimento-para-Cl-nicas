@@ -1,3 +1,4 @@
+from datetime import date as Date
 import Pagamento from entidades.Pagamento
 
 class PagamnetoPix(Pagamento):
