@@ -1,11 +1,12 @@
 from datetime import date as Date
-import Pagamento from entidades.Pagamento
+from entidades.Pagamento import Pagamento
 
-class PagamnetoPix(Pagamento):
-    def __init__(self, cpf_pagador: str):
-        super().__init__(valor, Date.today())
-        self.cpf__pagador = cpf_pagador
-    
+
+class PagamentoPix(Pagamento):
+    def __init__(self, valor: float, data_pagamento: Date, cpf_pagador: str):
+        super().__init__(valor, data_pagamento)
+        self.__cpf_pagador = cpf_pagador
+
     @property
     def cpf_pagador(self):
         return self.__cpf_pagador

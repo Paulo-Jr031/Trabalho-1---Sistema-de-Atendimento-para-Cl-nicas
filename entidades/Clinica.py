@@ -1,9 +1,8 @@
 from datetime import time as Time
 
 class Clinica:
-    def __init__(self, nome: str, cnpj: str, localizacao: str, descricao: str, horario_abertura: Time, horario_fechamento: Time):
+    def __init__(self, nome: str, localizacao: str, descricao: str, horario_abertura: Time, horario_fechamento: Time):
         self.__nome = nome
-        self.__cnpj = cnpj
         self.__localizacao = localizacao
         self.__descricao = descricao
         self.__horario_abertura = horario_abertura
@@ -18,18 +17,6 @@ class Clinica:
         if not nome.strip():
             raise ValueError('O nome não pode ser vazio!')
         self.__nome = nome
-
-    @property
-    def cnpj(self):
-        return self.__cnpj
-
-    @cnpj.setter
-    def cnpj(self, cnpj):
-        if not cnpj.strip():
-            raise ValueError('O CNPJ não pode ser vazio!')
-        if len(cnpj) != 14 or not cnpj.isdigit():
-            raise ValueError('O CNPJ deve conter 14 dígitos numéricos!')
-        self.__cnpj = cnpj
 
     @property
     def localizacao(self):

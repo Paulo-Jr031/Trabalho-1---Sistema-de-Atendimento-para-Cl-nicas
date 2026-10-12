@@ -1,4 +1,4 @@
-from date time import date as Date
+from datetime import date as Date
 from typing import List
 from entidades.Clinica import Clinica
 from entidades.ProfissionalSaude import ProfissionalSaude
@@ -118,8 +118,8 @@ class Atendimento:
         return self.__pagamentos
 
 
-    def adicionar_procedimento(self, descricao: str, preco: float, profissional_saude: ProfissionalSaude):
-        procedimento = Procedimento(descricao, preco, profissional_saude)
+    def adicionar_procedimento(self, atendimento: Atendimento, descricao: str, preco: float, profissional_saude: ProfissionalSaude):
+        procedimento = Procedimento(atendimento, descricao, preco, profissional_saude)
         if not isinstance(procedimento, Procedimento):
             raise ValueError("O procedimento deve ser uma instância da classe Procedimento.")
         self.__procedimentos.append(procedimento)
@@ -137,12 +137,22 @@ class Atendimento:
 
     def calcular_valor_restante(self):
         valor_total = self.calcular_valor_total()
-        valor_pago = sum(pagamento.valor for pagamento in self.__pagamentos)
+        valor_pago = 0.0
+        for pagamento in self.__pagamentos:
+            valor_pago += pagamento.valor 
         return valor_total - valor_pago
 
-    def __str__(self):
-        data_atendimento_str = self.__data_atendimento.strftime("%d/%m/%Y")
+    def __str__(self) -> str:
+        data_str = self.__data_atendimento.strftime("%d/%m/%Y")
         total = self.calcular_valor_total()
         restante = self.calcular_valor_restante()
-        return f"Atendimento em {data_atendimento_str} na clínica {self.__clinica.nome} com o profissional 
-        {self.__profissional_saude.nome}. Valor total: R${total:.2f}, Valor restante: R${restante:.2f}"
+        
+        nome_paciente = getattr(self.paciente, '_Pessoa__nome', 'Paciente')
+        nome_clinica = self.clinica.nome
+        
+        return (f"Atendimento - Data: {data_str} | "
+                f"Clínica: {nome_clinica} | Paciente: {nome_paciente} | "
+                f"Total: R${total:.2f} | Restante: R${restante:.2f}")
+
+
+

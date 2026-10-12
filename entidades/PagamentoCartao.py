@@ -1,9 +1,10 @@
 from datetime import date as Date
-import Pagamento from entidades.Pagamento
+from entidades.Pagamento import Pagamento
+
 
 class PagamentoCartao(Pagamento):
-    def __init__(self, valor: float, bandeira: str):
-        super().__init__(valor, Date.today())
+    def __init__(self, valor: float, data_pagamento: Date, bandeira: str):
+        super().__init__(valor, data_pagamento)
         self.__bandeira = bandeira
 
     @property
