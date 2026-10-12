@@ -8,14 +8,18 @@ def dados_teste(controlador):
         # Cadastrar Clínicas
         c1 = controlador.cadastrar_clinica("Clínica Saúde Centro", "Florianópolis", "Atendimento Geral", time(8, 0), time(18, 0))
         c2 = controlador.cadastrar_clinica("Clínica Universitária Trindade", "Florianópolis", "Pronto Atendimento", time(7, 0), time(22, 0))
+        c3 = controlador.cadastrar_clinica("Clínica Pombo Correio de Alcântra", "São josé", "Clínica de Imagem", time(7,0), time(18,0))
 
         #  Cadastrar Pacientes 
         p1 = controlador.cadastrar_paciente("João da Silva","000.111.222-33", "48999991111", date(1990, 5, 15))
-        
+        p2 = controlador.cadastrar_paciente("Pablo Miranda", "123,789.456-89", "4897845632", date(2010, 10, 28))
+        p3 = controlador.cadastrar_paciente("Enzo Miguel", "148.852.456-89", "4785692356", date(2000, 9, 25))
+
         # Cadastrar Profissionais de Saúde 
         med1 = controlador.cadastrar_profissional_saude("Dr. Carlos Alberto", "111.222.333-44", "48988881111", "Cardiologia", "CRM/SC 12345")
         med2 = controlador.cadastrar_profissional_saude("Dra. Mariana Souza", "555.666.777-88", "48988882222", "Pediatria", "CRM/SC 67890")
-        
+        med3 = controlador.cadastrar_profissional_saude("Dr. Amélio Jorge", "896.456.753-89", "4896325478", "Radiologista", "CRM/SC 68954")
+
         # tipos de atendimento
         tipo_consulta = controlador.tipos_atendimento[0] 
         tipo_exame = controlador.tipos_atendimento[1]    
