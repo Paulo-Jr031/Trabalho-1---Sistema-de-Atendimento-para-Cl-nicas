@@ -29,7 +29,7 @@ class LimitePrincipal:
             elif opcao == "2":
                 self.__menu_agendar_atendimento()
             elif opcao == "3":
-                self.__registrar_procedimento()
+                self.__menu_registrar_procedimento()
             elif opcao == "4":
                 self.__listar_atendimentos()
             elif opcao =="5":
