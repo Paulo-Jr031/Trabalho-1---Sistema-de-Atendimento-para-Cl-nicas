@@ -1,5 +1,5 @@
 from datetime import date as Date
-from entidades.Pagamento import Pagamento
+from .Pagamento import Pagamento
 
 class PagamentoDinheiro(Pagamento):
     def __init__(self, valor: float, data_pagamento: Date):

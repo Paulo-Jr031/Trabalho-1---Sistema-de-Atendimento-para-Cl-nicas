@@ -1,4 +1,4 @@
-from entidades.ProfissionalSaude import ProfissionalSaude
+from .ProfissionalSaude import ProfissionalSaude
 
 class Procedimento:
     def __init__(self, nome: str, descricao: str, preco: float, profissional_saude: ProfissionalSaude = None):

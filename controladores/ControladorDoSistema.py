@@ -1,12 +1,7 @@
 from datetime import date as Date, time as Time
 from typing import List, Dict
 from collections import Counter
-from entidades.Clinica import Clinica
-from entidades.Paciente import Paciente
-from entidades.ProfissionalSaude import ProfissionalSaude
-from entidades.TipoAtendimento import TipoAtendimento
-from entidades.Atendimento import Atendimento
-from entidades.Pagamento import Pagamento
+from entidades import Clinica, Paciente, ProfissionalSaude, TipoAtendimento, Atendimento, Pagamento
 
 class ControladorDoSistema:
     def __init__(self):
@@ -58,7 +53,7 @@ class ControladorDoSistema:
 
     def alterar_clinica(self, indice: int, novo_nome: str, nova_localizacao: str, nova_descricao: str, novo_abertura, novo_fechamento):
         if 0 <= indice < len(self.__clinicas):
-            clinica = self.__clinicas[indice-1]
+            clinica = self.__clinicas[indice]
 
             clinica.nome = novo_nome
             clinica.localizacao = nova_localizacao
@@ -96,7 +91,7 @@ class ControladorDoSistema:
             paciente._Pessoa__telefone = novo_telefone
             paciente.data_nascimento = nova_data_nascimento
         else:
-            raise IndexError("Índice de paciente inválido")
+            raise IndexError("Índice de Paciente inválido.")
 
     def excluir_paciente(self, indice: int):
         if 0 <= indice < len(self.__pacientes):
@@ -161,18 +156,20 @@ class ControladorDoSistema:
 
     
     def registrar_pagamento_em_atendimento(self, atendimento: Atendimento, pagamento: Pagamento):
-        if pagamento.data_pagamento < atendimento.data_atendimento:
+        if pagamento.data_pagamento > atendimento.data_atendimento:
             raise ValueError("A data do pagamento não pode ser anterior à data do atendimento.")
-
         atendimento.registrar_pagamento(pagamento)
 
     def excluir_atendimento(self, indice: int):
+        indice = int(indice)
+
         if 0 <= indice < len(self.__atendimentos):
             self.__atendimentos.pop(indice)
         else:
             raise IndexError("Índice de atendimento inválido.")
 
     def alterar_atendimento(self, indice: int, nova_clinica, novo_paciente, novo_profissional, novo_tipo, nova_data, novo_inicio, novo_fim, novo_valor):
+        indice = int(indice)
         if 0 <= indice < len(self.__atendimentos):
             if not novo_paciente.maior_de_idade():
                 raise ValueError("O paciente deve ser maior de idade para agendar um atendimento.")
@@ -192,7 +189,7 @@ class ControladorDoSistema:
             atendimento._Atendimento__procedimentos = []
             atendimento._Atendimento__pagamentos = []
         else:
-            raise IndexError("Índice de atendimento inválido.")
+            raise IndexError("\n Índice de atendimento inválido.")
 
     
     # relatorio

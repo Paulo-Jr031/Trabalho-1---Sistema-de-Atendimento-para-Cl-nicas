@@ -1,7 +1,7 @@
 from datetime import date as Date, time as Time
-from entidades.PagamentoDinheiro import PagamentoDinheiro
-from entidades.PagamentoPix import PagamentoPix
-from entidades.PagamentoCartao import PagamentoCartao
+from entidades import PagamentoDinheiro, PagamentoPix, PagamentoCartao
+
+
 
 class LimitePrincipal:
     def __init__(self, controlador: ControladorDoSistema):
@@ -10,8 +10,8 @@ class LimitePrincipal:
     def exibir_menu_principal(self):
         while True:
             print("\n==========================================")
-            print(" SISTEMA DE GESTÃO DE CLÍNICAS ")
-            print("==========================================")
+            print("        SISTEMA DE GESTÃO DE CLÍNICAS ")
+            print("========================================== \n")
             print("1. Menu de Cadastros(clínicas, pacientes...)")
             print("2. Agendar Atendimento")
             print("3. Registrar Procedimento em Atendimento")
@@ -22,52 +22,55 @@ class LimitePrincipal:
             print("8. Painel de Relatórios")
             print("0. Sair")
 
-            opcao = input("Escolha uma opção: ")
+            try:
 
-            if opcao == "1":
-                self.__menu_cadastros()
-            elif opcao == "2":
-                self.__menu_agendar_atendimento()
-            elif opcao == "3":
-                self.__registrar_procedimento()
-            elif opcao == "4":
-                self.__listar_atendimentos()
-            elif opcao =="5":
-                self.__alterar_atendimento()
-            elif opcao == "6":
-                self.__excluir_atendimento()
-            elif opcao == "7":
-                self.__menu_registrar_pagamento()
-            elif opcao == "8":
-                self.__menu_relatorios()
-            elif opcao == "0":
-                print("Encerrando o sistema... Até logo!")
-                break
-            else:
-                print("Opção inválida! Tente novamente.")
+                opcao = input("\nEscolha uma opção: ")
+                if opcao == "1":
+                    self.__menu_cadastros()
+                elif opcao == "2":
+                    self.__menu_agendar_atendimento()
+                elif opcao == "3":
+                    self.__registrar_procedimento()
+                elif opcao == "4":
+                    self.__listar_atendimentos()
+                elif opcao =="5":
+                    self.__alterar_atendimento()
+                elif opcao == "6":
+                    self.__excluir_atendimento()
+                elif opcao == "7":
+                    self.__menu_registrar_pagamento()
+                elif opcao == "8":
+                    self.__menu_relatorios()
+                elif opcao == "0":
+                    print("Encerrando o sistema... Até logo!")
+                    break
+                else:
+                    raise IndexError("Índice fora de limite ou inválido")
+
+            except Exception as e:
+                print(f"\n Ocorreu um erro inesperado: {e}")
 
 
     def __menu_cadastros(self):
         while True:
-            print("\n==========================================")
-            print("              SISTEMA DE  CADASTROS           ")
-            print("==========================================")
-            print("1. Cadastrar Clínica              2. Listar Clínicas")
-            print("3. Alterar Clínica                4. Excluir Clínica")
-            print("------------------------------------------")
-            print("5. Cadastrar Paciente             6. Listar Pacientes")
-            print("7. Alterar Paciente               8. Excluir Paciente")
-            print("------------------------------------------")
-            print("9. Cadastrar Profissional         10. Listar Profissionais")
-            print("11. Alterar Profissional          12. Excluir Profissional")
-            print("------------------------------------------")
-            print("0. Voltar ao Menu Principal")
-            print("==========================================")
-
-            opcao = input("Escolha uma opção: ")
+            print("\n==========================================================")
+            print("                 SISTEMA DE  CADASTROS           ")
+            print("==========================================================")
+            print("  1. Cadastrar Clínica            2. Listar Clínicas")
+            print("  3. Alterar Clínica              4. Excluir Clínica")
+            print("----------------------------------------------------------")
+            print("  5. Cadastrar Paciente           6. Listar Pacientes")
+            print("  7. Alterar Paciente             8. Excluir Paciente")
+            print("----------------------------------------------------------")
+            print("  9. Cadastrar Profissional       10. Listar Profissionais")
+            print("  11. Alterar Profissional        12. Excluir Profissional")
+            print("---------------------------------------------------------")
+            print("             0. Voltar ao Menu Principal")
+            print("==========================================================")
 
             try:
-                
+
+                opcao = input("Escolha uma opção: ")
                 if opcao == "1":
                     print("\n--- Cadastro de Clínica ---")
                     nome = input("Nome da clínica: ")
@@ -111,7 +114,7 @@ class LimitePrincipal:
                     self.__controlador.excluir_clinica(indice)
                     print("Clínica removida com sucesso!")
 
-             
+                
                 elif opcao == "5":
                     print("\n--- Cadastro de Paciente ---")
                     nome = input("Nome do paciente: ")
@@ -197,11 +200,12 @@ class LimitePrincipal:
 
                 elif opcao == "0":
                     break
+
                 else:
-                    print("Opção inválida! Tente novamente.")
+                    raise IndexError("Índice fora de limite ou inválido")
 
             except Exception as e:
-                print(f" Erro ao processar operação: {e}")
+                print(f"\n Ocorreu um erro inesperado: {e}")
 
     
     # agendar atendimentos
@@ -282,49 +286,61 @@ class LimitePrincipal:
     # registro pagamento
 
     def __menu_registrar_pagamento(self):
-        print("\n--- Registrar Pagamento ---")
-        if not self.__controlador.atendimentos:
-            print("Nenhum atendimento foi agendado por enquanto.")
-            return
-
-        print("\nSelecione o atendimento:")
-        for i, atendimento in enumerate(self.__controlador.atendimentos):
-            print(f"{i}. {atendimento}")
-        atendimento = self.__controlador.atendimentos[int(input("Digite o número do atendimento: "))]
-
-        print(f"Saldo devedor: R${atendimento.calcular_valor_restante():.2f}")
-        if atendimento.calcular_valor_restante() <= 0:
-            print("Este atendimento já está totalmente pago.")
-            return
-
+        
         try:
+           
+            print("\n--- Registrar Pagamento ---")
+            if not self.__controlador.atendimentos:
+                print("Nenhum atendimento foi agendado por enquanto.")
 
-            data_pagamento = __import__('datetime').datetime.strptime(input("Data do pagamento (DD/MM/AAAA): "), "%d/%m/%Y").date()
-            valor_pagamento = float(input("Valor do pagamento (R$): "))
 
-            print("\nSelecione a forma de pagamento:")
-            print("1. Dinheiro")
-            print("2. PIX")
-            print("3. Cartão de Crédito/Débito")
-            modalidade_pagamento = input("Digite o número da forma de pagamento: ")
+            print("\nSelecione o atendimento:")
+            for i, atendimento in enumerate(self.__controlador.atendimentos):
+                print(f"{i}. {atendimento}") 
+            
+            entrada = input("Digite o número do atendimento: ")
 
-            if modalidade_pagamento == "1":
-                pagamento = PagamentoDinheiro(valor_pagamento, data_pagamento)
-            elif modalidade_pagamento == "2":
-                cpf_pagador = input("Digite o CPF do pagador: ")
-                pagamento = PagamentoPix(valor_pagamento, data_pagamento, cpf_pagador)
-            elif modalidade_pagamento == "3":
-                bandeira_cartao = input("Digite a bandeira do cartão (ex: Visa, MasterCard): ")
-                pagamento = PagamentoCartao(valor_pagamento, data_pagamento, bandeira_cartao)
+            if not entrada.isdigit() or int(entrada) < 0 or int(entrada) >= len(self.__controlador.atendimentos):
+                raise IndexError("Índice fora dos limites ou inválido")
+
             else:
-                print("Opção de pagamento inválida!")
-                return
+                atendimento = self.__controlador.atendimentos[int(entrada)]
 
-            self.__controlador.registrar_pagamento_em_atendimento(atendimento, pagamento)
-            print(f"Pagamento registrado com sucesso! Saldo devedor atualizado: R${atendimento.calcular_valor_restante():.2f}")
+                print(f"Saldo devedor: R${atendimento.calcular_valor_restante():.2f}")
+                if atendimento.calcular_valor_restante() <= 0:
+                    print("Este atendimento já está totalmente pago.")
+                
+                data_pagamento = __import__('datetime').datetime.strptime(input("Data do pagamento (DD/MM/AAAA): "), "%d/%m/%Y").date()
+                valor_pagamento = float(input("Valor do pagamento (R$): "))
+                if valor_pagamento > atendimento.calcular_valor_restante() or valor_pagamento <= 10:
+                    raise ValueError("\n O valor informado é maior que o total a pagar ou é menor que o valor minimo, tente novamente com o valor correto.")
+
+                print("\nSelecione a forma de pagamento:")
+                print("1. Dinheiro")
+                print("2. PIX")
+                print("3. Cartão de Crédito/Débito")
+                modalidade_pagamento = input("Digite o número da forma de pagamento: ")
+
+                if modalidade_pagamento == "1":
+                    pagamento = PagamentoDinheiro(valor_pagamento, data_pagamento)
+                elif modalidade_pagamento == "2":
+                    cpf_pagador = input("Digite o CPF do pagador: ")
+                    pagamento = PagamentoPix(valor_pagamento, data_pagamento, cpf_pagador)
+                elif modalidade_pagamento == "3":
+                    bandeira_cartao = input("Digite a bandeira do cartão (ex: Visa, MasterCard): ")
+                    pagamento = PagamentoCartao(valor_pagamento, data_pagamento, bandeira_cartao)
+                else:
+                    raise ValueError("\nOpção de pagamento inválida!")
+                    return
+
+                self.__controlador.registrar_pagamento_em_atendimento(atendimento, pagamento)
+                print(f"Pagamento registrado com sucesso! Saldo devedor atualizado: R${atendimento.calcular_valor_restante():.2f}")
 
         except ValueError as e:
-            print(f"Erro ao registrar pagamento: {e}")
+            print(f"Erro ao registrar procedimento: {e}")
+
+        except Exception as e:
+            print(f"Ocorreu um erro inesperado: {e}")
 
 
     # listar atendimentos
@@ -340,118 +356,147 @@ class LimitePrincipal:
     # apagar/alterar atendimentos
 
     def __alterar_atendimento(self):
-        print("\n--- Alterar Dados de Atendimento ---")
-        if not self.__controlador.atendimentos:
-            print("Nenhum atendimento para alterar.")
         
-        else:
-            for i, at in enumerate(self.__controlador.atendimentos):
-                print(f"{i}. {at}")
-            indice = int(input("Digite o número do atendimento que deseja alterar: "))
+        try:
+            print("\n--- Alterar Dados de Atendimento ---")
+            if not self.__controlador.atendimentos:
+                raise IndexError("Não existe um atendimento com esse índice") 
 
-            print("\nSelecione a Nova Clínica:")
-            for i, clinica in enumerate(self.__controlador.clinicas):
-                print(f"{i}. {clinica.nome}")
-            clinica = self.__controlador.clinicas[int(input("Número: "))]
+            else:
+                for i, at in enumerate(self.__controlador.atendimentos):
+                    print(f"{i}. {at}")
+                indice = input("Digite o número do atendimento que deseja alterar: ")
+                if not indice.isdigit() or int(indice) < 0 or int(indice) >= len(self.__controlador.atendimentos):
+                    raise IndexError("Índice fora dos limites ou inválido")
 
-            print("\nSelecione o Novo Paciente:")
-            for i, paciente in enumerate(self.__controlador.pacientes):
-                print(f"{i}. {paciente.nome}")
-            paciente = self.__controlador.pacientes[int(input("Número: "))]
+                print("\nSelecione a Nova Clínica:")
+                for i, clinica in enumerate(self.__controlador.clinicas):
+                    print(f"{i}. {clinica.nome}")
+                indice = input("Digite o número da clínica que deseja adicionar: ")
+                if not indice.isdigit() or int(indice) < 0 or int(indice) >= len(self.__controlador.clinicas):
+                    raise IndexError("Índice fora dos limites ou inválido")
+                clinica = self.__controlador.clinicas[int(indice)]
 
-            print("\nSelecione o Novo Profissional:")
-            for i, profissional in enumerate(self.__controlador.profissionais_saude):
-                print(f"{i}. {profissional.nome}")
-            profissional = self.__controlador.profissionais_saude[int(input("Número: "))]
+                print("\nSelecione o Novo Paciente:")
+                for i, paciente in enumerate(self.__controlador.pacientes):
+                    print(f"{i}. {paciente.nome}")
+                indice = input("Digite o número do paciente que deseja adicionar: ")
+                if not indice.isdigit() or int(indice) < 0 or int(indice) >= len(self.__controlador.pacientes):
+                    raise IndexError("Índice fora dos limites ou inválido")
+                paciente = self.__controlador.pacientes[int(indice)]
 
-            print("\nSelecione o Novo Tipo:")
-            for i, tipo in enumerate(self.__controlador.tipos_atendimento):
-                print(f"{i}. {tipo.tipo_atendimento}")
-            tipo = self.__controlador.tipos_atendimento[int(input("Número: "))]
+                print("\nSelecione o Novo Profissional:")
+                for i, profissional in enumerate(self.__controlador.profissionais_saude):
+                    print(f"{i}. {profissional.nome}")
+                indice = input("Digite o número do profissional que deseja adicionar: ")
+                if not indice.isdigit() or int(indice) < 0 or int(indice) >= len(self.__controlador.profissionais_saude):
+                    raise IndexError("Índice fora dos limites ou inválido")
+                profissional = self.__controlador.profissionais_saude[int(indice)]
 
-            data_atendimento = __import__('datetime').datetime.strptime(input("Nova Data (DD/MM/AAAA): "), "%d/%m/%Y").date()
-            horario_inicio = __import__('datetime').datetime.strptime(input("Novo Início (HH:MM): "), "%H:%M").time()
-            horario_fim = __import__('datetime').datetime.strptime(input("Novo Fim (HH:MM): "), "%H:%M").time()
-            valor = float(input("Novo Valor Base (R$): "))
+                print("\nSelecione o Novo Tipo:")
+                for i, tipo in enumerate(self.__controlador.tipos_atendimento):
+                    print(f"{i}. {tipo.tipo_atendimento}")
+                indice = input("Digite o número do tipo de atendimento que será realizado: ")
+                if not indice.isdigit() or int(indice) < 0 or int(indice) >= len(self.__controlador.tipos_atendimento):
+                    raise IndexError("Índice fora dos limites ou inválido")
+                tipo = self.__controlador.tipos_atendimento[int(indice)]
 
-            self.__controlador.alterar_atendimento(indice, clinica, paciente, profissional, tipo, data_atendimento, horario_inicio, horario_fim, valor)
-            print("Atendimento alterado com sucesso!")
+                data_atendimento = __import__('datetime').datetime.strptime(input("Nova Data (DD/MM/AAAA): "), "%d/%m/%Y").date()
+                horario_inicio = __import__('datetime').datetime.strptime(input("Novo Início (HH:MM): "), "%H:%M").time()
+                horario_fim = __import__('datetime').datetime.strptime(input("Novo Fim (HH:MM): "), "%H:%M").time()
+                valor = float(input("Novo Valor Base (R$): "))
+
+                self.__controlador.alterar_atendimento(indice, clinica, paciente, profissional, tipo, data_atendimento, horario_inicio, horario_fim, valor)
+                print("Atendimento alterado com sucesso!")
+
+        except IndexError as e:
+            print(f"Ocorreu um erro inesperado: {e}")
 
 
     def __excluir_atendimento(self):
-        print("\n--- Cancelar/Excluir Atendimento ---")
-        if not self.__controlador.atendimentos:
-            print("Nenhum atendimento para excluir.")
-        
-        else:
-            for i, at in enumerate(self.__controlador.atendimentos):
-                print(f"{i}. {at}")
-            indice = int(input("Digite o número do atendimento que deseja remover: "))
-            self.__controlador.excluir_atendimento(indice)
-            print("Atendimento cancelado e removido com sucesso!")
 
+        try:
+        
+            print("\n--- Cancelar/Excluir Atendimento ---")
+            if not self.__controlador.atendimentos:
+                print("Nenhum atendimento para excluir.")
+            
+            else:
+                for i, atendimento in enumerate(self.__controlador.atendimentos):
+                    print(f"{i}. {atendimento}")
+                indice = input("Digite o número do atendimento que deseja remover: ")
+                if not indice.isdigit() or int(indice) < 0 or int(indice) >= len(self.__controlador.atendimentos):
+                    raise IndexError("Índice fora dos limites ou inválido")
+                else:
+                    self.__controlador.excluir_atendimento(indice)
+                    print("Atendimento cancelado e removido com sucesso!")
+
+        except IndexError as e:
+            print(f"\n Erro ao registrar procedimento: {e}")
 
 
     # relatorios
 
     def __menu_relatorios(self):
         while True:
-            print("\n--- Paínel de Relatórios ---")
+            print("\n      ----- Paínel de Relatórios -----")
+            print("---------------------------------------------")
             print("1. Clínicas com maior número de atendimentos")
             print("2. Atendimentos mais caros e mais baratos")
             print("3. Procedimentos mais realizados")
             print("4. Procedimentos mais caros e mais baratos")
             print("0. Voltar ao Menu Principal")
 
-            opcao = input("Escolha uma opção: ")
+            opcao = input("\nEscolha uma opção: ")   
 
-            if opcao == "1":
-                relatorio = self.__controlador.relatorio_clinicas_mais_atendimentos()
-                print("\n--- Clínicas com Maior Número de Atendimentos ---")
+            try:
+
+                if opcao == "1":
+                    relatorio = self.__controlador.relatorio_clinicas_mais_atendimentos()
+                    print("\n--- Clínicas com Maior Número de Atendimentos ---")
             
-                if relatorio is None or len(relatorio) == 0:
-                    print("Sem dados suficientes de atendimentos cadastrados.")
+                    if relatorio is None or len(relatorio) == 0:
+                        print("Sem dados suficientes de atendimentos cadastrados.")
+                    else:
+                        for item in relatorio:
+                            print(f"-> Clínica: {item['clinica']} | Total de Atendimentos: {item['atendimentos']}")
+
+                elif opcao == "2":
+                    relatorio = self.__controlador.relatorio_atendimentos_mais_caro_mais_barato()
+                    print("\n--- Atendimentos Mais Caros e Mais Baratos ---")
+                
+                    if relatorio is None or relatorio["mais_caro"] is None:
+                        print("Sem dados suficientes de atendimentos cadastrados.")
+                    else:
+                        print(f"-> Mais Caro: {relatorio['mais_caro']['id']} (Total: R$ {relatorio['mais_caro']['valor']:.2f})")
+                        print(f"-> Mais Barato: {relatorio['mais_barato']['id']} (Total: R$ {relatorio['mais_barato']['valor']:.2f})")
+
+                elif opcao == "3":
+                    relatorio = self.__controlador.relatorio_procedimentos_populares()
+                    print("\n--- Ranking de Procedimentos mais Populares ---")
+                
+                    if relatorio is None or len(relatorio) == 0:
+                        print("Sem dados suficientes de procedimentos cadastrados.")
+                    else:
+                        for item in relatorio:
+                            print(f"-> Procedimento: {item['procedimento']} | Realizado: {item['frequencia']} vezes")
+
+                elif opcao == "4":
+                    relatorio = self.__controlador.relatorio_procedimentos_mais_caros_mais_baratos()
+                    print("\n--- Procedimentos Mais Caros e Mais Baratos ---")
+                
+                    if relatorio is None or relatorio["mais_caro"] is None:
+                        print("Sem dados suficientes de procedimentos cadastrados.")
+                    else:
+                        print(f"-> Procedimento Mais Caro: {relatorio['mais_caro']['descricao']} (Custo: R$ {relatorio['mais_caro']['custo']:.2f})")
+                        print(f"-> Procedimento Mais Barato: {relatorio['mais_barato']['descricao']} (Custo: R$ {relatorio['mais_barato']['custo']:.2f})")
+
+                elif opcao == "0":
+                    print("Voltando ao Menu Principal...")
+                    break
+
                 else:
-               
-                    for item in relatorio:
-                        print(f"-> Clínica: {item['clinica']} | Total de Atendimentos: {item['atendimentos']}")
+                    raise IndexError("Índice de profissional inválido")
 
-
-            elif opcao == "2":
-                relatorio = self.__controlador.relatorio_atendimentos_mais_caro_mais_barato()
-                print("\n--- Atendimentos Mais Caros e Mais Baratos ---")
-            
-                if relatorio is None or relatorio["mais_caro"] is None:
-                    print("Sem dados suficientes de atendimentos cadastrados.")
-                else:
-                    print(f"-> Mais Caro: {relatorio['mais_caro']['id']} (Total: R$ {relatorio['mais_caro']['valor']:.2f})")
-                    print(f"-> Mais Barato: {relatorio['mais_barato']['id']} (Total: R$ {relatorio['mais_barato']['valor']:.2f})")
-
-            elif opcao == "3":
-                relatorio = self.__controlador.relatorio_procedimentos_populares()
-                print("\n--- Ranking de Procedimentos mais Populares ---")
-            
-                if relatorio is None or len(relatorio) == 0:
-                    print("Sem dados suficientes de procedimentos cadastrados.")
-                else:
-            
-                    for item in relatorio:
-                        print(f"-> Procedimento: {item['procedimento']} | Realizado: {item['frequencia']} vezes")
-
-            elif opcao == "4":
-            
-                relatorio = self.__controlador.relatorio_procedimentos_mais_caros_mais_baratos()
-                print("\n--- Procedimentos Mais Caros e Mais Baratos ---")
-            
-                if relatorio is None or relatorio["mais_caro"] is None:
-                    print("Sem dados suficientes de procedimentos cadastrados.")
-                else:
-                    print(f"-> Procedimento Mais Caro: {relatorio['mais_caro']['descricao']} (Custo: R$ {relatorio['mais_caro']['custo']:.2f})")
-                    print(f"-> Procedimento Mais Barato: {relatorio['mais_barato']['descricao']} (Custo: R$ {relatorio['mais_barato']['custo']:.2f})")
-
-            elif opcao == "0":
-                print("Voltando ao Menu Principal...")
-                break
-
-            else: 
-                print("Opção inválida! Tente novamente")
+            except IndexError as e:
+                print(f"\n Erro ao registrar procedimento: {e}")

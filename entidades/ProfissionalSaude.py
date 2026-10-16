@@ -1,4 +1,4 @@
-from entidades.Pessoa import Pessoa
+from .Pessoa import Pessoa
 
 class ProfissionalSaude(Pessoa):
     def __init__(self, nome: str, cpf: str, telefone: str, especialidade: str, registro_profissional: str):

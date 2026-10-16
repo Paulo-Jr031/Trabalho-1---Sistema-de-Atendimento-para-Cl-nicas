@@ -1,11 +1,11 @@
 from datetime import date as Date
 from typing import List
-from entidades.Clinica import Clinica
-from entidades.ProfissionalSaude import ProfissionalSaude
-from entidades.TipoAtendimento import TipoAtendimento
-from entidades.Procedimento import Procedimento
-from entidades.Paciente import Paciente
-from entidades.Pagamento import Pagamento
+from .Clinica import Clinica
+from .ProfissionalSaude import ProfissionalSaude
+from .TipoAtendimento import TipoAtendimento
+from .Procedimento import Procedimento
+from .Paciente import Paciente
+from .Pagamento import Pagamento
 
 class Atendimento:
     def __init__(self, data_atendimento: Date, horario_inicio: Time, horario_fim: Time, 
