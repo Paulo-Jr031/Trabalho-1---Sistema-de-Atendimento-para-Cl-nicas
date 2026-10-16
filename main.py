@@ -1,3 +1,4 @@
+from __future__ import annotations
 from datetime import date, time
 from controladores.ControladorDoSistema import ControladorDoSistema
 from limites.LimitePrincipal import LimitePrincipal
