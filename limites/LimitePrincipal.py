@@ -1,3 +1,4 @@
+from __future__ import annotations
 from datetime import date as Date, time as Time
 from entidades import PagamentoDinheiro, PagamentoPix, PagamentoCartao
 
